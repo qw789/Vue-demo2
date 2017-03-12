@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="todo-list-example">
+  <input
+    v-model="newTodoText"
+    v-on:keyup.enter="addNewTodo"
+    placeholder="Add a todo"
+  >
+  <ul>
+    <todo-item
+      v-for="(todo, index) in todos"
+      v-bind:title="todo"
+      v-on:remove="todos.splice(index, 1)"
+    ></todo-item>
+  </ul>
+</div>
+<div id="app">
+	<li v-for='(todo,key) in todos'>{{todo}}:{{key}}</li>
+</div>
+<div id="counter-event-example">
+  <p>{{ total }}</p>
+  <button-counter v-on:increment="incrementTotal"></button-counter>
+  <button-counter v-on:increment="incrementTotal"></button-counter>
+</div>
+<script type="text/javascript">
+	Vue.component('todo-item', {
+  template: '\
+    <li>\
+      {{ title }}\
+      <button v-on:click="$emit(\'remove\')">X</button>\
+    </li>\
+  ',
+  props: ['title']
+})
+new Vue({
+  el: '#todo-list-example',
+  data: {
+    newTodoText: '',
+    todos: [
+      'Do the dishes',
+      'Take out the trash',
+      'Mow the lawn'
+    ]
+  },
+  methods: {
+    addNewTodo: function () {
+      this.todos.push(this.newTodoText)
+      this.newTodoText = ''
+    }
+  }
+})
+new Vue({
+  el: '#app',
+  data: {
+    todos: [
+      'Do the dishes',
+      'Take out the trash',
+      'Mow the lawn'
+    ]
+  }
+})
+var name = '丁香医生';
+var desc = '丁香医生是面向大众的科普性健康类网站';
+var html = function(name, desc){
+    var tpl = '公司名：' + name + '\n'+
+            '简介：'+ desc;
+    return tpl;
+}
+console.log(html(name,desc));
+var html = `公司名：${name}
+    简介：${desc}`;
+    console.log(html)
+    Vue.component('button-counter', {
+  template: '<button v-on:click="increment">{{ counter }}</button>',
+  data: function () {
+    return {
+      counter: 0
+    }
+  },
+  methods: {
+    increment: function () {
+      this.counter += 1
+      this.$emit('increment')
+    }
+  },
+})
+new Vue({
+  el: '#counter-event-example',
+  data: {
+    total: 0
+  },
+  methods: {
+    incrementTotal: function () {
+      this.total += 1
+    }
+  }
+})
+</script>
+</body>
+</html>

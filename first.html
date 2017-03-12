@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<p>
+			{{count}}
+			<button @click="inc">+</button>
+			<button @click="dec">-</button>
+		</p>
+	</div>
+	<script type="text/javascript">
+		new Vue({
+			el:"#app",
+			data(){
+				return {
+					count:0
+				}
+			},
+			methods:{
+				inc(){
+					this.count++
+				},
+				dec(){
+					this.count--
+				}
+			}
+		})
+		function Person(name,age){
+			this.name=name;
+			this.age=age;
+		}
+		var person=new Person('li',29)
+		console.log(window.name)
+
+
+		function Fruits(){
+
+		}
+		Fruits.prototype={
+			color:'red',
+			say:function(){
+				console.log(this.color)
+			}
+		}
+		var apple=new Fruits();
+		apple.say();
+		var banana={
+			color:"blue"
+		}
+		apple.say.call(banana);
+		var a=[1,2];var b=[3,4];var c=[5,6]
+		Array.prototype.push.call(a,b,c)
+		console.log(a,b,c)
+
+		var obj = {
+			    x: 81,
+			};
+			  
+			var foo = {
+			    getX: function() {
+			        return this.x;
+			    }
+        }
+  
+console.log(foo.getX.bind(obj)());  //81
+console.log(foo.getX.call(obj));    //81
+console.log(foo.getX.apply(obj));   //81
+var foo = {
+    bar : 1,
+    eventBind: function(){
+        $('.someClass').on('click',function(event) {
+            /* Act on the event */
+            console.log(this.bar);      //1
+        }.bind(this));
+    }
+}
+var foo = {
+    bar : 1,
+    eventBind: function(){
+        var _this = this;
+        $('.someClass').on('click',function(event) {
+            /* Act on the event */
+            console.log(_this.bar);     //1
+        });
+    }
+}
+
+	</script>
+</body>
+</html>

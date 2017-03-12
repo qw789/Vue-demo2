@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <script src="http://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body> 
+    <div id="box">
+        <!-- 使用组件aaa -->
+        <aaa></aaa>
+    </div>
+
+    <!-- 我们把组件模板抽离出来 -->
+    <template id="aaa">
+        <div>
+           <a href="http://www.baidu.com" @click="test(items, $event)">点击搜索age</a>  
+            <span>我是父级 {{msg}}</span>
+            <hr>
+            <!-- 在aaa组件里使用组件bbb -->
+            <bbb @child-msg="get"></bbb>
+        </div>
+    </template>
+    <template id="bbb">
+        <div>
+            <span>我的bbb,{{c}}</span>
+            <input type="button" value="发送" @click="send">
+        </div>
+    </template>
+   <div id="parent">
+       <user-profile ref="profile"></user-profile>
+   </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el:'#box',
+            components:{
+                'aaa':{
+                    data(){
+                        return {msg:'我是aaa组件的数据',items:"test"}
+                    },
+                    methods:{
+                        get(msg){
+                            //alert(msg);
+                            this.msg = msg;
+                            console.log(this.$children)
+                        },
+                        test(msg,evt){
+                        	console.log(evt,msg);
+                        	evt.preventDefault();
+                        }
+                    },
+                    template: '#aaa',
+                    components:{
+                        'bbb':{
+                            data(){
+                                return {c:'我是子组件的数据'}
+                            },
+                            template:'#bbb',
+                            methods:{
+                                send(){
+                                    this.$emit('child-msg', this.c);
+                                    console.log(this.$parent)
+                                }
+                            }
+                        },
+                    }
+                },
+            }
+        });
+        var parent = new Vue({ 
+            el: '#parent',
+            components:{
+                "user-profile":{
+                    template:'<div>ss</div>'  
+                }
+            }
+             })
+// 访问子组件
+    var child = parent.$refs.profile
+    console.log(child)
+    </script>
+</body>
+</html>
